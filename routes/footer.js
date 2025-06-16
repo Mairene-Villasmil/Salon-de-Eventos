@@ -5,7 +5,7 @@ export function renderFooter(container) {
           <div class="row">
             <div class="col-md-3 mb-4">
               <div class="navbar-left mb-2">
-                <span class="logo fs-4 fw-bold text-primary">🎈 MiSalón</span>
+                <span class="logo fs-4 fw-bold text-primary">Eventos - Salones Infantiles</span>
               </div>
               <p class="small">Creamos momentos mágicos para los más pequeños.</p>
             </div>

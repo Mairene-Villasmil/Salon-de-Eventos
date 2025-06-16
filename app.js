@@ -12,7 +12,7 @@ const navbar = document.getElementById('navbar');
 let dataGlobal = [];
 
 function getPath() {
-  return window.location.hash.slice(2) || '';
+  return window.location.hash.slice(2).split('?')[0] || '';
 }
 
 async function fetchData() {
@@ -20,15 +20,17 @@ async function fetchData() {
     const res = await fetch('./data/salones.json');
     if (!res.ok) throw new Error('Error cargando los datos');
 
-    dataGlobal = await res.json();
+    const jsonData = await res.json();
 
     const guardados = JSON.parse(localStorage.getItem('eventos'));
     if (guardados && Array.isArray(guardados)) {
-      dataGlobal = guardados;
+      dataGlobal = [...jsonData]; 
+    } else {
+      dataGlobal = jsonData;
     }
 
     setupNavbar();
-    await route();  
+    await route();
   } catch (error) {
     app.innerHTML = `<p>Error cargando datos: ${error.message}</p>`;
   }
@@ -50,13 +52,13 @@ function mostrarSolo(id) {
 }
 
 function setupNavbar() {
-  const token = sessionStorage.getItem('token');
-  const usuario = token ? JSON.parse(sessionStorage.getItem('user')) : null;
+  const auth = JSON.parse(sessionStorage.getItem('auth'));
+  const usuario = auth ? auth.user : null;
 
   navbar.innerHTML = `
     <nav class="navbar">
       <div class="navbar-container">
-        <div class="navbar-brand" id="logo">🎈 MiSalón</div>
+        <div class="navbar-brand" id="logo">Eventos - Salones Infantiles</div>
         <button class="navbar-toggle" id="navbarToggle">☰</button>
         
         <div class="nav-links" id="navLinks">
@@ -68,16 +70,16 @@ function setupNavbar() {
         </div>
 
         <div class="right-controls">
-          <input type="text" id="searchInput" placeholder="Buscar..." />
-          ${
-            token && usuario
-              ? `<img src="${usuario.foto || 'https://i.pravatar.cc/40'}" 
+          <input type="text" id="searchInput" placeholder="Buscar..." style="display:none" />
+          ${usuario
+      ? `<img src="${usuario.foto}" 
                       alt="Mi perfil" 
                       id="perfilBtn" 
                       class="perfil-avatar" 
                       title="Mi perfil" />`
-              : `<button id="loginBtn" class="btn-login">Iniciar sesión</button>`
-          }
+      : `<button id="loginBtn" class="btn-login">Iniciar sesión</button>`
+    }
+          ${usuario ? `<button id="logoutBtn" class="btn-logout" title="Cerrar sesión"></button>` : ''}
         </div>
       </div>
     </nav>
@@ -103,14 +105,18 @@ function setupNavbar() {
     });
   });
 
-  const perfilBtn = document.getElementById('perfilBtn');
-  perfilBtn?.addEventListener('click', () => {
+  document.getElementById('perfilBtn')?.addEventListener('click', () => {
     window.location.hash = '#/perfil';
   });
 
-  const loginBtn = document.getElementById('loginBtn');
-  loginBtn?.addEventListener('click', () => {
+  document.getElementById('loginBtn')?.addEventListener('click', () => {
     window.location.hash = '#/login';
+  });
+
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    sessionStorage.removeItem('auth');
+    window.location.hash = '#/login';
+    setupNavbar();
   });
 
   const searchInput = document.getElementById('searchInput');
@@ -125,20 +131,6 @@ function setupNavbar() {
       filtrarTarjetas(texto);
     }
   });
-
-  const path = getPath();
-  const activo = path === '' ? 'todos' : path.split('/')[0];
-  actualizarActivo(activo);
-}
-
-function actualizarActivo(filtro) {
-  navbar.querySelectorAll('button[data-filtro]').forEach(btn => {
-    const valor = btn.getAttribute('data-filtro');
-    btn.classList.toggle('active', valor === filtro);
-  });
-
-  const loginBtn = navbar.querySelector('#loginBtn');
-  loginBtn?.classList.toggle('active', filtro === 'login');
 }
 
 function filtrarTarjetas(texto) {
@@ -171,29 +163,30 @@ function filtrarTarjetas(texto) {
 
 async function route(path = null) {
   if (!path) path = getPath();
-  const searchInput = navbar.querySelector('#searchInput');
-  const token = sessionStorage.getItem('token');
-  const usuario = token ? JSON.parse(sessionStorage.getItem('user')) : null;
-  const estaLogueado = Boolean(token && usuario);
+  const [rawPath, query] = path.split("?");
+  const params = new URLSearchParams(query);
 
-  if (['', 'todos', 'salon', 'servicio'].includes(path)) {
-    searchInput.style.display = 'block';
-  } else {
-    searchInput.style.display = 'none';
-    searchInput.value = '';
+  const searchInput = navbar.querySelector('#searchInput');
+  if (searchInput) {
+    if (['', 'todos', 'salon', 'servicio'].includes(rawPath)) {
+      searchInput.style.display = 'block';
+    } else {
+      searchInput.style.display = 'none';
+      searchInput.value = '';
+    }
   }
 
-  if (path === '' || path === 'todos') {
-    mostrarSolo('inicio');
-    await renderWithFade(renderHome, app, dataGlobal, 'todos');
+  const auth = JSON.parse(sessionStorage.getItem('auth'));
+  const estaLogueado = Boolean(auth && auth.token);
+  const usuario = estaLogueado ? auth.user : null;
 
-  } else if (path === 'salon' || path === 'servicio') {
+  if (['', 'todos', 'salon', 'servicio'].includes(rawPath)) {
     mostrarSolo('inicio');
-    await renderWithFade(renderHome, app, dataGlobal, path);
+    await renderWithFade(renderHome, app, dataGlobal, rawPath || 'todos');
 
-  } else if (path.startsWith('detalles/')) {
+  } else if (rawPath.startsWith('detalles/')) {
     mostrarSolo('inicio');
-    const id = parseInt(path.split('/')[1]);
+    const id = parseInt(rawPath.split('/')[1]);
     const item = dataGlobal.find(d => d.id === id);
     if (item) {
       renderModal(item);
@@ -201,15 +194,18 @@ async function route(path = null) {
       await renderWithFade(renderNotFound, app);
     }
 
-  } else if (path === 'contacto') {
+  } else if (rawPath === 'contacto') {
     mostrarSolo('contacto');
-    await renderWithFade(renderContacto, app);
+    await renderWithFade(renderContacto, app, params);
 
-  } else if (path === 'nosotros') {
+  } else if (rawPath === 'nosotros') {
     mostrarSolo('nosotros');
     await renderWithFade(renderNosotros, app, dataGlobal);
 
-  } else if (path === 'perfil') {
+  } else if (rawPath === 'reservar') {
+    const { renderReservar } = await import('./routes/reservar.js');
+    await renderWithFade(renderReservar, app, dataGlobal);
+  } else if (rawPath === 'perfil') {
     if (!estaLogueado) {
       if (window.location.hash !== '#/login') {
         window.location.hash = '#/login';
@@ -225,7 +221,7 @@ async function route(path = null) {
     }
     console.log('Usuario en perfil:', usuario.role);
 
-  } else if (path === 'login') {
+  } else if (rawPath === 'login') {
     if (estaLogueado) {
       window.location.hash = '#/perfil';
       return;
@@ -236,7 +232,18 @@ async function route(path = null) {
     await renderWithFade(renderNotFound, app);
   }
 
-  setupNavbar(); // Reconfiguro el navbar en cada ruta para que esté actualizado
+
+  function actualizarActivo(filtro) {
+    navbar.querySelectorAll('button[data-filtro]').forEach(btn => {
+      const valor = btn.getAttribute('data-filtro');
+      btn.classList.toggle('active', valor === filtro);
+    });
+
+    const loginBtn = navbar.querySelector('#loginBtn');
+    loginBtn?.classList.toggle('active', filtro === 'login');
+  }
+  const activo = path === '' ? 'todos' : path.split('/')[0];
+  actualizarActivo(activo);
 }
 
 function fadeOut(element) {

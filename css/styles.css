@@ -15,7 +15,7 @@ body {
 .navbar-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
   padding: 15px;
@@ -635,10 +635,6 @@ button#volver:hover {
   }
 }
 
-footer{
-  background: #048ba5;
-}
-
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -784,9 +780,9 @@ h3.border-start {
 
 #listaEventos .list-group-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 1rem;
-  flex-wrap: wrap; 
 }
 
 .admin-container {
@@ -1039,4 +1035,16 @@ button {
 
 .perfil-avatar:hover {
   transform: scale(1.1);
+}
+
+.btn-logout {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 8px;
+  color: #f97316;
+}
+.btn-logout:hover {
+  color: #e04e00;
 }

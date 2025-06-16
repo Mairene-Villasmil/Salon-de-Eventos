@@ -1,132 +1,257 @@
 [
-    {
-      "id": 1,
-      "tipo": "salon",
-      "nombre": "Salón Luna Llena",
-      "descripcion": "Un espacio elegante con capacidad para 150 personas. Ideal para bodas y eventos sociales, con decoración moderna y pista de baile amplia.",
-      "capacidad": 150,
-      "precio": 2500,
-      "imagen": "https://picsum.photos/id/1011/400/300"
-    },
-    {
-      "id": 2,
-      "tipo": "salon",
-      "nombre": "Salón Jardín del Sol",
-      "descripcion": "Disfruta de un ambiente natural con jardines cuidados y áreas al aire libre. Perfecto para eventos familiares y corporativos.",
-      "capacidad": 120,
-      "precio": 2000,
-      "imagen": "https://picsum.photos/id/1025/400/300"
-    },
-    {
-      "id": 3,
-      "tipo": "salon",
-      "nombre": "Salón Estrella Dorada",
-      "descripcion": "Ambiente sofisticado con luces cálidas, decoración clásica y excelentes servicios gastronómicos. Capacidad para 180 invitados.",
-      "capacidad": 180,
-      "precio": 3000,
-      "imagen": "https://picsum.photos/id/1033/400/300"
-    },
-    {
-      "id": 4,
-      "tipo": "salon",
-      "nombre": "Salón Mariposa Azul",
-      "descripcion": "Un lugar acogedor y versátil, ideal para eventos pequeños y medianos. Cuenta con sonido profesional y mobiliario elegante.",
-      "capacidad": 80,
-      "precio": 1500,
-      "imagen": "https://picsum.photos/id/1042/400/300"
-    },
-    {
-      "id": 5,
-      "tipo": "salon",
-      "nombre": "Salón Aurora Boreal",
-      "descripcion": "Espacio amplio y moderno con tecnología audiovisual, perfecto para conferencias, lanzamientos y fiestas temáticas.",
-      "capacidad": 220,
-      "precio": 2800,
-      "imagen": "https://picsum.photos/id/1049/400/300"
-    },
-    {
-      "id": 6,
-      "tipo": "salon",
-      "nombre": "Salón Cielo Estrellado",
-      "descripcion": "Ambiente romántico con detalles en iluminación y decoración, ideal para eventos íntimos y celebraciones especiales.",
-      "capacidad": 60,
-      "precio": 1700,
-      "imagen": "https://picsum.photos/id/1051/400/300"
-    },
-    {
-      "id": 7,
-      "tipo": "salon",
-      "nombre": "Salón Rincón de los Sueños",
-      "descripcion": "Espacio con encanto rústico y cómodo, perfecto para cumpleaños y reuniones familiares con ambiente cálido y acogedor.",
-      "capacidad": 100,
-      "precio": 1900,
-      "imagen": "https://picsum.photos/id/1062/400/300"
-    },
-    {
-      "id": 8,
-      "tipo": "salon",
-      "nombre": "Salón Horizonte Dorado",
-      "descripcion": "Diseñado para eventos corporativos y sociales, cuenta con áreas VIP y tecnología de última generación para presentaciones.",
-      "capacidad": 200,
-      "precio": 3200,
-      "imagen": "https://picsum.photos/id/1074/400/300"
-    },
-    {
-      "id": 9,
-      "tipo": "salon",
-      "nombre": "Salón Oasis Tropical",
-      "descripcion": "Un ambiente fresco con decoración tropical, ideal para fiestas temáticas y eventos al aire libre con piscina y área verde.",
-      "capacidad": 140,
-      "precio": 2400,
-      "imagen": "https://picsum.photos/id/1080/400/300"
-    },
-    {
-      "id": 10,
-      "tipo": "salon",
-      "nombre": "Salón Brisa Marina",
-      "descripcion": "Espacio moderno con vista panorámica, ideal para eventos exclusivos, con servicio de catering y barra libre.",
-      "capacidad": 130,
-      "precio": 2600,
-      "imagen": "https://picsum.photos/id/1084/400/300"
-    },
-    {
-      "id": 11,
-      "tipo": "servicio",
-      "nombre": "Servicio de Catering Gourmet",
-      "descripcion": "Deléitate con menús personalizados y platillos de alta cocina preparados por chefs profesionales para cualquier tipo de evento.",
-      "precio": 1000,
-      "imagen": "https://picsum.photos/id/109/400/300"
-    },
-    {
-      "id": 12,
-      "tipo": "servicio",
-      "nombre": "Decoración Temática",
-      "descripcion": "Transformamos tu evento con decoraciones únicas y creativas, adaptadas a la ocasión y estilo que desees.",
-      "precio": 600,
-      "imagen": "https://picsum.photos/id/110/400/300"
-    },
-    {
-      "id": 13,
-      "tipo": "servicio",
-      "nombre": "Servicio de DJ Profesional",
-      "descripcion": "Ambienta tu fiesta con música en vivo y mezclas personalizadas que harán que nadie quiera dejar la pista de baile.",
-      "precio": 700,
-      "imagen": "https://picsum.photos/id/111/400/300"
-    },
-    {
-      "id": 14,
-      "tipo": "servicio",
-      "nombre": "Fotografía y Video",
-      "descripcion": "Capturamos cada momento especial con un equipo profesional de fotógrafos y videógrafos para que revivas tu evento siempre.",
-      "precio": 900,
-      "imagen": "https://picsum.photos/id/112/400/300"
-    },
-    {
-      "id": 15,
-      "tipo": "servicio",
-      "nombre": "Alquiler de Mobiliario",
-      "descripcion": "Sillas, mesas, carpas y más, con variedad de estilos y tamaños para complementar la ambientación perfecta de tu evento.",
-      "precio": 500,
-      "imagen": "https://picsum.photos/id/113/400/300"
-    }
-  ]  
+  {
+    "id": 1,
+    "tipo": "salon",
+    "nombre": "Salón Luna Llena",
+    "descripcion": "Un espacio elegante con capacidad para 150 personas. Ideal para bodas y eventos sociales, con decoración moderna y pista de baile amplia.",
+    "capacidad": 150,
+    "precio": 2500,
+    "imagen": "https://picsum.photos/id/1011/400/300"
+  },
+  {
+    "id": 2,
+    "tipo": "salon",
+    "nombre": "Salón Jardín del Sol",
+    "descripcion": "Disfruta de un ambiente natural con jardines cuidados y áreas al aire libre. Perfecto para eventos familiares y corporativos.",
+    "capacidad": 120,
+    "precio": 2000,
+    "imagen": "https://picsum.photos/id/1025/400/300"
+  },
+  {
+    "id": 3,
+    "tipo": "salon",
+    "nombre": "Salón Estrella Dorada",
+    "descripcion": "Ambiente sofisticado con luces cálidas, decoración clásica y excelentes servicios gastronómicos. Capacidad para 180 invitados.",
+    "capacidad": 180,
+    "precio": 3000,
+    "imagen": "https://picsum.photos/id/1033/400/300"
+  },
+  {
+    "id": 4,
+    "tipo": "salon",
+    "nombre": "Salón Mariposa Azul",
+    "descripcion": "Un lugar acogedor y versátil, ideal para eventos pequeños y medianos. Cuenta con sonido profesional y mobiliario elegante.",
+    "capacidad": 80,
+    "precio": 1500,
+    "imagen": "https://picsum.photos/id/1042/400/300"
+  },
+  {
+    "id": 5,
+    "tipo": "salon",
+    "nombre": "Salón Aurora Boreal",
+    "descripcion": "Espacio amplio y moderno con tecnología audiovisual, perfecto para conferencias, lanzamientos y fiestas temáticas.",
+    "capacidad": 220,
+    "precio": 2800,
+    "imagen": "https://picsum.photos/id/1049/400/300"
+  },
+  {
+    "id": 6,
+    "tipo": "salon",
+    "nombre": "Salón Cielo Estrellado",
+    "descripcion": "Ambiente romántico con detalles en iluminación y decoración, ideal para eventos íntimos y celebraciones especiales.",
+    "capacidad": 60,
+    "precio": 1700,
+    "imagen": "https://picsum.photos/id/1051/400/300"
+  },
+  {
+    "id": 7,
+    "tipo": "salon",
+    "nombre": "Salón Rincón de los Sueños",
+    "descripcion": "Espacio con encanto rústico y cómodo, perfecto para cumpleaños y reuniones familiares con ambiente cálido y acogedor.",
+    "capacidad": 100,
+    "precio": 1900,
+    "imagen": "https://picsum.photos/id/1062/400/300"
+  },
+  {
+    "id": 8,
+    "tipo": "salon",
+    "nombre": "Salón Horizonte Dorado",
+    "descripcion": "Diseñado para eventos corporativos y sociales, cuenta con áreas VIP y tecnología de última generación para presentaciones.",
+    "capacidad": 200,
+    "precio": 3200,
+    "imagen": "https://picsum.photos/id/1074/400/300"
+  },
+  {
+    "id": 9,
+    "tipo": "salon",
+    "nombre": "Salón Oasis Tropical",
+    "descripcion": "Un ambiente fresco con decoración tropical, ideal para fiestas temáticas y eventos al aire libre con piscina y área verde.",
+    "capacidad": 140,
+    "precio": 2400,
+    "imagen": "https://picsum.photos/id/1080/400/300"
+  },
+  {
+    "id": 10,
+    "tipo": "salon",
+    "nombre": "Salón Brisa Marina",
+    "descripcion": "Espacio moderno con vista panorámica, ideal para eventos exclusivos, con servicio de catering y barra libre.",
+    "capacidad": 130,
+    "precio": 2600,
+    "imagen": "https://picsum.photos/id/1084/400/300"
+  },
+  {
+    "id": 11,
+    "tipo": "servicio",
+    "nombre": "Servicio de Catering Gourmet",
+    "descripcion": "Deléitate con menús personalizados y platillos de alta cocina preparados por chefs profesionales para cualquier tipo de evento.",
+    "precio": 1000,
+    "imagen": "https://picsum.photos/id/109/400/300"
+  },
+  {
+    "id": 12,
+    "tipo": "servicio",
+    "nombre": "Decoración Temática",
+    "descripcion": "Transformamos tu evento con decoraciones únicas y creativas, adaptadas a la ocasión y estilo que desees.",
+    "precio": 600,
+    "imagen": "https://picsum.photos/id/110/400/300"
+  },
+  {
+    "id": 13,
+    "tipo": "servicio",
+    "nombre": "Servicio de DJ Profesional",
+    "descripcion": "Ambienta tu fiesta con música en vivo y mezclas personalizadas que harán que nadie quiera dejar la pista de baile.",
+    "precio": 700,
+    "imagen": "https://picsum.photos/id/111/400/300"
+  },
+  {
+    "id": 14,
+    "tipo": "servicio",
+    "nombre": "Fotografía y Video",
+    "descripcion": "Capturamos cada momento especial con un equipo profesional de fotógrafos y videógrafos para que revivas tu evento siempre.",
+    "precio": 900,
+    "imagen": "https://picsum.photos/id/112/400/300"
+  },
+  {
+    "id": 15,
+    "tipo": "servicio",
+    "nombre": "Alquiler de Mobiliario",
+    "descripcion": "Sillas, mesas, carpas y más, con variedad de estilos y tamaños para complementar la ambientación perfecta de tu evento.",
+    "precio": 500,
+    "imagen": "https://picsum.photos/id/113/400/300"
+  },
+  {
+    "id": 16,
+    "tipo": "servicio",
+    "nombre": "Show de Magia",
+    "descripcion": "Un espectáculo divertido e impactante para sorprender a grandes y chicos, con magos profesionales y efectos especiales.",
+    "precio": 1100,
+    "imagen": "https://picsum.photos/id/114/400/300"
+  },
+  {
+    "id": 17,
+    "tipo": "servicio",
+    "nombre": "Animación Infantil",
+    "descripcion": "Actividades, juegos y diversión guiada para los más pequeños, con animadores especializados y temáticas variadas.",
+    "precio": 1300,
+    "imagen": "https://picsum.photos/id/115/400/300"
+  },
+  {
+    "id": 18,
+    "tipo": "servicio",
+    "nombre": "Inflables y Juegos",
+    "descripcion": "Alquiler de castillos inflables, toboganes y juegos para mantener entretenidos a los niños durante todo el evento.",
+    "precio": 1200,
+    "imagen": "https://picsum.photos/id/116/400/300"
+  },
+  {
+    "id": 19,
+    "tipo": "servicio",
+    "nombre": "Souvenirs Personalizados",
+    "descripcion": "Recuerdos únicos y temáticos para tus invitados, con opciones personalizadas para cada tipo de evento.",
+    "precio": 800,
+    "imagen": "https://picsum.photos/id/117/400/300"
+  },
+  {
+    "id": 20,
+    "tipo": "servicio",
+    "nombre": "Iluminación Profesional",
+    "descripcion": "Equipos de luces LED y efectos especiales para crear ambientes únicos y resaltar cada momento especial de tu evento.",
+    "precio": 1400,
+    "imagen": "https://picsum.photos/id/118/400/300"
+  },
+  {
+    "id": 21,
+    "tipo": "salon",
+    "nombre": "Salón Aurora Celestial",
+    "descripcion": "Espacio elegante con vista panorámica y decoración moderna, capacidad para 160 personas. Ideal para eventos corporativos y sociales.",
+    "capacidad": 160,
+    "precio": 2900,
+    "imagen": "https://picsum.photos/id/119/400/300"
+  },
+  {
+    "id": 22,
+    "tipo": "salon",
+    "nombre": "Salón Bosque Encantado",
+    "descripcion": "Ambiente natural con jardines interiores y luces cálidas, perfecto para bodas y eventos íntimos. Capacidad para 90 personas.",
+    "capacidad": 90,
+    "precio": 2100,
+    "imagen": "https://picsum.photos/id/120/400/300"
+  },
+  {
+    "id": 23,
+    "tipo": "salon",
+    "nombre": "Salón Viento del Norte",
+    "descripcion": "Salón moderno y amplio con tecnología audiovisual de última generación, para eventos de hasta 200 personas.",
+    "capacidad": 200,
+    "precio": 3100,
+    "imagen": "https://picsum.photos/id/121/400/300"
+  },
+  {
+    "id": 24,
+    "tipo": "salon",
+    "nombre": "Salón Costa Azul",
+    "descripcion": "Un espacio fresco con vista al jardín y piscina, ideal para fiestas temáticas y celebraciones al aire libre. Capacidad 130 personas.",
+    "capacidad": 130,
+    "precio": 2700,
+    "imagen": "https://picsum.photos/id/122/400/300"
+  },
+  {
+    "id": 25,
+    "tipo": "salon",
+    "nombre": "Salón Eclipse Dorado",
+    "descripcion": "Ambiente sofisticado con decoración clásica y pista de baile amplia, perfecto para eventos elegantes y formales. Capacidad 180 personas.",
+    "capacidad": 180,
+    "precio": 3300,
+    "imagen": "https://picsum.photos/id/123/400/300"
+  },
+  {
+    "id": 26,
+    "tipo": "servicio",
+    "nombre": "Comida Casera Tradicional",
+    "descripcion": "Menús con platos caseros y regionales, elaborados con ingredientes frescos y de calidad para que tu evento tenga sabor auténtico.",
+    "precio": 950,
+    "imagen": "https://picsum.photos/id/124/400/300"
+  },
+  {
+    "id": 27,
+    "tipo": "servicio",
+    "nombre": "Bebidas Premium",
+    "descripcion": "Variedad de bebidas alcohólicas y no alcohólicas, con barra libre opcional y servicio profesional de bartenders.",
+    "precio": 1200,
+    "imagen": "https://picsum.photos/id/125/400/300"
+  },
+  {
+    "id": 28,
+    "tipo": "servicio",
+    "nombre": "Animación Infantil Especializada",
+    "descripcion": "Animadores profesionales que ofrecen juegos, shows y actividades adaptadas para niños de todas las edades, garantizando diversión y seguridad.",
+    "precio": 1400,
+    "imagen": "https://picsum.photos/id/126/400/300"
+  },
+  {
+    "id": 29,
+    "tipo": "servicio",
+    "nombre": "Seguridad Privada",
+    "descripcion": "Servicio profesional de seguridad para controlar accesos y garantizar la tranquilidad durante tu evento.",
+    "precio": 1100,
+    "imagen": "https://picsum.photos/id/127/400/300"
+  },
+  {
+    "id": 30,
+    "tipo": "servicio",
+    "nombre": "Iluminación Exterior",
+    "descripcion": "Equipos de iluminación para áreas exteriores que crean ambientes cálidos y seguros, ideal para eventos nocturnos al aire libre.",
+    "precio": 1300,
+    "imagen": "https://picsum.photos/id/128/400/300"
+  }
+]

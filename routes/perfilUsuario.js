@@ -8,12 +8,13 @@ export function renderPerfilUsuario(container, usuario) {
     `;
     return;
   }
+  console.log('Usuario:', usuario);
 
   container.innerHTML = `
     <div class="perfil-container">
       <div class="perfil-card">
-        <img src="${usuario.image}" alt="Avatar" class="perfil-avatar" />
-        <h2>${usuario.firstName} ${usuario.lastName}</h2>
+        <img src="${usuario.foto}" alt="Avatar" class="perfil-avatar" />
+        <h2>${usuario.username}</h2>
         <p><strong>📧 Email:</strong> ${usuario.email}</p>
         <button id="logoutUsuario" class="btn btn-danger mt-2">Cerrar sesión</button>
       </div>
@@ -60,7 +61,7 @@ export function renderPerfilUsuario(container, usuario) {
     const nuevoComentario = {
       tipo: "testimonio",
       texto,
-      autor: `${usuario.firstName} ${usuario.lastName}`,
+      autor: `${username}`,
       valoracion,
       aprobado: false,
       usuario: usuario.email,

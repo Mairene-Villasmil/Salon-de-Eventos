@@ -51,35 +51,49 @@ export function renderContacto(container) {
     </main>
   `;
 
+  const nombreInput = container.querySelector('#nombre');
+  const emailInput = container.querySelector('#email');
+  const telefonoInput = container.querySelector('#telefono');
+  const mensajeInput = container.querySelector('#mensaje');
+  const hash = window.location.hash;
+  const queryMatch = hash.match(/\?mensaje=(.*)/);
+  if (queryMatch) {
+    const mensajeDecodificado = decodeURIComponent(queryMatch[1]);
+    mensajeInput.value = mensajeDecodificado;
+  }
+
   const form = container.querySelector('#contactForm');
   const mensajeSuccess = container.querySelector('#contactoMensaje');
   const mensajeError = container.querySelector('#contactoError');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const auth = JSON.parse(localStorage.getItem('auth'));
-    if (!auth) {
+  
+    const token = sessionStorage.getItem('token');
+    const usuario = token ? JSON.parse(sessionStorage.getItem('user')) : null;
+  
+    mensajeError.textContent = '';
+    mensajeSuccess.textContent = '';
+  
+    if (!usuario) {
       mensajeError.textContent = "Debes iniciar sesión para enviar una consulta.";
       return;
     }
-
-    mensajeError.textContent = '';
-
+  
     const nuevaConsulta = {
-      nombre: form.nombre.value.trim(),
-      email: form.email.value.trim(),
-      telefono: form.telefono.value.trim(),
-      mensaje: form.mensaje.value.trim(),
+      nombre: nombreInput.value.trim(),
+      email: emailInput.value.trim(),
+      telefono: telefonoInput.value.trim(),
+      mensaje: mensajeInput.value.trim(),
       fecha: new Date().toLocaleString(),
-      usuario: auth.username,
+      usuario: usuario.email,
     };
-
+  
     const consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
     consultas.push(nuevaConsulta);
     localStorage.setItem('consultas', JSON.stringify(consultas));
-
+  
     mensajeSuccess.textContent = "Consulta enviada. ¡Gracias!";
     form.reset();
-  });
+  });  
 }

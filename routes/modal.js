@@ -1,7 +1,15 @@
 export function renderModal(item) {
-  console.log('renderModal llamado para:', item.nombre);
+  const auth = JSON.parse(sessionStorage.getItem("auth")); 
   const modal = document.createElement('div');
   modal.className = 'custom-modal';
+
+  const capacidadHTML = item.capacidad ? `<p><strong>Capacidad:</strong> ${item.capacidad}</p>` : '';
+  const precioHTML = item.precio ? `<p><strong>Precio:</strong> $${item.precio}</p>` : '<p><strong>Precio:</strong> Consultar</p>';
+
+  const botonReservarHTML = (auth && auth.user && auth.user.role === "user") 
+  ? `<button id="btnReservar" class="btn btn-success mt-2 ms-2">Reservar <i class="fas fa-calendar-check ms-1"></i></button>`
+  : '';
+  console.log("Usuario rol en modal:", auth?.user?.role);
 
   modal.innerHTML = `
     <div class="custom-modal-content container">
@@ -16,18 +24,20 @@ export function renderModal(item) {
           <h4 class="mb-3">${item.nombre}</h4>
           <p><strong>Tipo:</strong> ${item.tipo}</p>
           <p>${item.descripcion}</p>
-          <p><strong>Capacidad:</strong> ${item.capacidad || 'No especificado'}</p>
-          <p><strong>Precio:</strong> ${item.precio ? '$' + item.precio : 'Consultar'}</p>
-          <button class="btn btn-primary btn-solicitar mt-3">
-            Solicitar información <i class="fas fa-envelope ms-2"></i>
-          </button>
+          ${capacidadHTML}
+          ${precioHTML}
+          <div class="d-flex flex-wrap">
+            <button class="btn btn-primary btn-solicitar mt-3">
+              Solicitar información <i class="fas fa-envelope ms-3"></i>
+            </button>
+            ${botonReservarHTML}
+          </div>
         </div>
       </div>
     </div>
   `;
 
   document.body.appendChild(modal);
-  console.log('Modal añadido al DOM');
 
   modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
   modal.addEventListener('click', (e) => {
@@ -39,4 +49,12 @@ export function renderModal(item) {
     window.location.hash = `#/contacto?mensaje=${mensaje}`;
     modal.remove();
   });
+
+  const reservarBtn = modal.querySelector('#btnReservar'); 
+  if (reservarBtn) {
+    reservarBtn.addEventListener('click', () => {
+      window.location.hash = `#/reservar?salon=${encodeURIComponent(item.nombre)}`;
+      modal.remove();
+    });
+  }
 }

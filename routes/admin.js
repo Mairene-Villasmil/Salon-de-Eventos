@@ -24,9 +24,10 @@ export function renderAdminPanel(container) {
   renderConsultasAdmin(consultasContainer);
   renderNotificacionesAdmin(notificacionesContainer);
 
-  container.querySelector('#logout').addEventListener('click', () => {
+  document.getElementById('logout').addEventListener('click', () => {
+    sessionStorage.clear();
     localStorage.removeItem('auth');
-    window.location.hash = '#/';
+    window.location.hash = "#/login";
   });
 }
 
@@ -34,54 +35,112 @@ function renderEventosServicios(container, data) {
   let editIndex = null;
 
   container.innerHTML = `
-    <div class="admin-card mb-4">
-      <div class="admin-card-header bg-primary text-white p-3 rounded-top">
-        <h5 id="formTitle" class="m-0">Agregar nuevo evento o servicio</h5>
-      </div>
-      <div class="admin-card-body p-3 bg-light rounded-bottom">
-        <form id="addForm" class="form-grid d-flex flex-column gap-3">
-          <input type="text" id="nombre" placeholder="Nombre del evento" required />
-          <input type="text" id="descripcion" placeholder="Descripción" required />
-          <input type="text" id="imagen" placeholder="URL de imagen" required />
-          <select id="tipo" required>
-            <option value="" disabled selected>Seleccionar tipo</option>
-            <option value="salon">Salón</option>
-            <option value="servicio">Servicio</option>
-          </select>
-          <div class="img-preview" style="display:none;">
-            <img id="preview" src="" alt="Vista previa" style="max-width: 100px; border-radius: 8px;" />
-          </div>
-          <button type="submit" class="btn btn-success">Agregar</button>
-        </form>
-      </div>
+  <div class="admin-card mb-4">
+    <div class="admin-card-header bg-primary text-white p-3 rounded-top">
+      <h5 id="formTitle" class="m-0">Agregar nuevo evento o servicio</h5>
     </div>
+    <div class="admin-card-body p-3 bg-light rounded-bottom">
+      <form id="addForm" class="form-grid d-flex flex-column gap-3">
+        <input type="text" id="nombre" placeholder="Nombre del evento" required />
+        <input type="text" id="descripcion" placeholder="Descripción" required />
 
-    <div class="admin-card">
-      <div class="admin-card-header p-3 bg-secondary text-white rounded-top">
-        <h5 class="m-0">Eventos y servicios actuales</h5>
-      </div>
-      <ul class="list-group list-group-flush" id="listaEventos"></ul>
+        <div>
+          <label>
+            <input type="radio" name="imgOption" value="url" checked />
+            Usar URL
+          </label>
+          <label>
+            <input type="radio" name="imgOption" value="file" />
+            Subir archivo
+          </label>
+        </div>
+
+        <input type="text" id="imagenUrl" placeholder="URL de imagen" />
+        <input type="file" id="imagenFile" accept="image/*" style="display:none;" />
+
+        <select id="tipo" required>
+          <option value="" disabled selected>Seleccionar tipo</option>
+          <option value="salon">Salón</option>
+          <option value="servicio">Servicio</option>
+        </select>
+
+        <div class="img-preview" style="display:none;">
+          <img id="preview" src="" alt="Vista previa" style="max-width: 100px; border-radius: 8px;" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Agregar</button>
+      </form>
     </div>
-  `;
+  </div>
+
+  <ul id="listaEventos" class="list-group"></ul>
+`;
 
   const form = container.querySelector('#addForm');
   const nombre = form.querySelector('#nombre');
   const descripcion = form.querySelector('#descripcion');
-  const imagen = form.querySelector('#imagen');
+
+  const imgOptionRadios = form.querySelectorAll('input[name="imgOption"]');
+  const imagenUrlInput = form.querySelector('#imagenUrl');
+  const imagenFileInput = form.querySelector('#imagenFile');
+
   const tipo = form.querySelector('#tipo');
+
   const previewImg = form.querySelector('#preview');
   const previewContainer = form.querySelector('.img-preview');
   const btnSubmit = form.querySelector('button');
   const formTitle = container.querySelector('#formTitle');
+
   const lista = container.querySelector('#listaEventos');
 
+  function actualizarPreview(src) {
+    if (src) {
+      previewImg.src = src;
+      previewContainer.style.display = 'block';
+    } else {
+      previewImg.src = '';
+      previewContainer.style.display = 'none';
+    }
+  }
+
+  imgOptionRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'url' && radio.checked) {
+        imagenUrlInput.style.display = 'block';
+        imagenFileInput.style.display = 'none';
+        actualizarPreview(imagenUrlInput.value.trim());
+      }
+      if (radio.value === 'file' && radio.checked) {
+        imagenUrlInput.style.display = 'none';
+        imagenFileInput.style.display = 'block';
+        actualizarPreview('');
+      }
+    });
+  });
+
+  imagenUrlInput.addEventListener('input', () => {
+    actualizarPreview(imagenUrlInput.value.trim());
+  });
+
+  imagenFileInput.addEventListener('change', () => {
+    const file = imagenFileInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => actualizarPreview(e.target.result);
+      reader.readAsDataURL(file);
+    } else {
+      actualizarPreview('');
+    }
+  });
+
   function mostrarEventos() {
+    const eventosActualizados = JSON.parse(localStorage.getItem('eventos') || '[]');
     lista.innerHTML = '';
-    data.forEach((item, index) => {
+    eventosActualizados.forEach((item, index) => {
       const li = document.createElement('li');
-      li.className = 'list-group-item d-flex align-items-center gap-3';
+      li.className = 'list-group-item d-flex flex-row align-items-center gap-2';
       li.innerHTML = `
-        <img src="${item.imagen || 'https://via.placeholder.com/100'}" alt="${item.nombre}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+        <img src="${item.imagen || 'https://via.placeholder.com/150'}" alt="${item.nombre}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
         <div class="flex-grow-1">
           <h5>${item.nombre}</h5>
           <p class="text-muted small">${item.descripcion}</p>
@@ -99,8 +158,9 @@ function renderEventosServicios(container, data) {
       btn.addEventListener('click', () => {
         const index = Number(btn.dataset.index);
         if (confirm('¿Eliminar este evento o servicio?')) {
-          data.splice(index, 1);
-          localStorage.setItem('eventos', JSON.stringify(data));
+          const eventosActualizados = JSON.parse(localStorage.getItem('eventos') || '[]');
+          eventosActualizados.splice(index, 1);
+          localStorage.setItem('eventos', JSON.stringify(eventosActualizados));
           mostrarEventos();
         }
       });
@@ -109,13 +169,24 @@ function renderEventosServicios(container, data) {
     lista.querySelectorAll('.btn-editar').forEach(btn => {
       btn.addEventListener('click', () => {
         editIndex = Number(btn.dataset.index);
-        const evento = data[editIndex];
+        const eventosActualizados = JSON.parse(localStorage.getItem('eventos') || '[]');
+        const evento = eventosActualizados[editIndex];
         nombre.value = evento.nombre;
         descripcion.value = evento.descripcion;
-        imagen.value = evento.imagen;
         tipo.value = evento.tipo;
-        previewImg.src = evento.imagen;
+        actualizarPreview(evento.imagen);
         previewContainer.style.display = 'block';
+
+        if (evento.imagen && evento.imagen.startsWith('data:image')) {
+          form.querySelector('input[name="imgOption"][value="file"]').checked = true;
+          imagenUrlInput.style.display = 'none';
+          imagenFileInput.style.display = 'block';
+        } else {
+          form.querySelector('input[name="imgOption"][value="url"]').checked = true;
+          imagenUrlInput.style.display = 'block';
+          imagenFileInput.style.display = 'none';
+        }
+
         btnSubmit.textContent = 'Actualizar';
         formTitle.textContent = 'Editar evento o servicio';
       });
@@ -124,34 +195,50 @@ function renderEventosServicios(container, data) {
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    const eventosActualizados = JSON.parse(localStorage.getItem('eventos') || '[]');
 
-    const nuevoEvento = {
-      id: editIndex !== null ? data[editIndex].id : Date.now(),
-      nombre: nombre.value.trim(),
-      descripcion: descripcion.value.trim(),
-      imagen: imagen.value.trim(),
-      tipo: tipo.value,
-    };
-
-    if (editIndex !== null) {
-      data[editIndex] = nuevoEvento;
-      editIndex = null;
+    let imagenFinal = '';
+    if (form.querySelector('input[name="imgOption"]:checked').value === 'url') {
+      imagenFinal = imagenUrlInput.value.trim();
     } else {
-      data.push(nuevoEvento);
+      const file = imagenFileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          guardarEvento(e.target.result);
+        };
+        reader.readAsDataURL(file);
+        return; 
+      } else if (editIndex !== null) {
+        imagenFinal = eventosActualizados[editIndex].imagen || '';
+      }
     }
 
-    localStorage.setItem('eventos', JSON.stringify(data));
-    form.reset();
-    previewContainer.style.display = 'none';
-    btnSubmit.textContent = 'Agregar';
-    formTitle.textContent = 'Agregar nuevo evento o servicio';
-    mostrarEventos();
-  });
+    guardarEvento(imagenFinal);
 
-  imagen.addEventListener('input', () => {
-    const url = imagen.value.trim();
-    previewImg.src = url;
-    previewContainer.style.display = url ? 'block' : 'none';
+    function guardarEvento(imagen) {
+      const nuevoEvento = {
+        id: editIndex !== null ? eventosActualizados[editIndex].id : Date.now(),
+        nombre: nombre.value.trim(),
+        descripcion: descripcion.value.trim(),
+        imagen: imagen,
+        tipo: tipo.value,
+      };
+
+      if (editIndex !== null) {
+        eventosActualizados[editIndex] = nuevoEvento;
+        editIndex = null;
+      } else {
+        eventosActualizados.push(nuevoEvento);
+      }
+
+      localStorage.setItem('eventos', JSON.stringify(eventosActualizados));
+      form.reset();
+      previewContainer.style.display = 'none';
+      btnSubmit.textContent = 'Agregar';
+      formTitle.textContent = 'Agregar nuevo evento o servicio';
+      mostrarEventos();
+    }
   });
 
   mostrarEventos();
@@ -207,7 +294,7 @@ function renderComentariosPendientes(container) {
         comentarios.splice(index, 1);
         localStorage.setItem("comentariosPendientes", JSON.stringify(comentarios));
         mostrarComentarios();
-        mostrarAprobados(); 
+        mostrarAprobados();
       });
     });
   }
@@ -236,7 +323,7 @@ function renderComentariosPendientes(container) {
           const aprobados = JSON.parse(localStorage.getItem("testimoniosAprobados") || "[]");
           aprobados.splice(index, 1);
           localStorage.setItem("testimoniosAprobados", JSON.stringify(aprobados));
-          mostrarAprobados(); 
+          mostrarAprobados();
         }
       });
     });
@@ -254,14 +341,13 @@ function renderConsultasAdmin(container) {
       <div class="admin-card-header bg-info p-3 rounded-top">
         <h5 class="m-0">📨 Consultas de usuarios</h5>
       </div>
-      ${
-        consultas.length === 0
-          ? '<p class="text-muted p-3">No hay consultas registradas.</p>'
-          : `
+      ${consultas.length === 0
+      ? '<p class="text-muted p-3">No hay consultas registradas.</p>'
+      : `
         <ul class="list-group list-group-flush">
           ${consultas
-            .map(
-              (c, i) => `
+        .map(
+          (c, i) => `
               <li class="list-group-item d-flex justify-content-between align-items-start flex-column flex-md-row gap-2">
                 <div>
                   <p class="mb-1"><strong>${c.nombre}</strong> (${c.email})</p>
@@ -274,11 +360,11 @@ function renderConsultasAdmin(container) {
                   Eliminar
                 </button>
               </li>`
-            )
-            .join("")}
+        )
+        .join("")}
         </ul>
       `
-      }
+    }
     </div>
   `;
 
